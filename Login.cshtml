@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+    <br>
+    Email Address: <br><input type="email" name="EmailAddress" id="EmailAddress"><br><br>
+    Password: <br><input type="password" name="Password" id="Password"><br><br>
+    Select Folder to Access:<br>
+    <select size="6" id="Folder">
+        <option value="1">Inbox</option>
+        <option value="2">Sent</option>
+        <option value="3">Drafts</option>
+        <option value="4">Spam</option>
+        <option value="5">Trash</option>
+    </select><br><br>
+    <button onclick="onSubmitClick()">Submit</button><br><br>
+
+
+    <p>Click the "Submit" button after entering an Email Address and Password".</p>
+
+</body>
+</html>
+
+<script>
+    function onSubmitClick() {
+        var Email = document.getElementById("EmailAddress").value;
+        var Password = document.getElementById("Password").value;
+        var Folder = document.getElementById("Folder").value;
+
+        $.ajax({
+                    url: '@Url.Action("CheckLogin", "Login")',
+                    dataType: 'text',
+            data: { Email: Email, Password: Password, Folder: Folder },
+                    traditional: true,
+                    type: 'POST',
+                    success: function (message) {
+                        alert(message);
+                        var url = '@Url.Action("ResultsPage", "Login", new {Message="RePlaceME"})';
+                        url = url.replace("RePlaceME", message);
+                                    location.href = url;
+                    }
+                });
+    }
+</script>
